@@ -90,7 +90,7 @@ App = {
         var template = document.createElement('template');
         html_string = html_string.trim().replace('test-id', 'test-' + i).replace('span id = "xx"','span id = ' + i + '-up').replace('span id = "xx"','span id = ' + i + '-down'); 
         var currentVote = await App.Ballot.voters(App.address,i);
-        console.log(currentVote);
+        console.log(currentVote.toNumber());
         template.innerHTML = html_string;
         template.content.firstChild.getElementsByClassName("proposal-header")[0].innerText = taskTitle;
         template.content.firstChild.getElementsByClassName("proposal-content")[0].innerText = taskContent;
