@@ -2,12 +2,16 @@ App = {
   loading: false,
   contracts: {},
   address: undefined,
+  recentlyVoted: new Map(),
     load: async () => {
       await App.loadWeb3()
         console.log("app loading...");
         await App.loadAccount()
         await App.loadContract()
         await App.render()
+        var intervalId = window.setInterval(function(){
+          App.renderVotes();
+        }, 5000);
     },
 
       // https://medium.com/metamask/https-medium-com-metamask-breaking-change-injecting-web3-7722797916a8
@@ -70,17 +74,32 @@ App = {
     App.setLoading(false)
 
   },
+
+  renderVotes: async() =>{ 
+    const taskCount = await App.Ballot.proposalCount()
+    const $taskTemplate = $('.card')
+    const map1 = new Map();
+
+      // Render out each task with a new task template
+    for (var i = 1; i <= taskCount; i++) {
+      if(App.recentlyVoted.get(i) != true){
+      // Fetch the task data from the blockchain
+      const task = await App.Ballot.proposals(i)
+      var test1 = document.getElementsByClassName("vote-arrows-" + i);
+      document.getElementsByClassName("vote-arrows-" + i)[0].getElementsByClassName("upvote-label")[0].innerText = task[1];
+      document.getElementsByClassName("vote-arrows-" + i)[0].getElementsByClassName("downvote-label")[0].innerText = task[2];
+    }
+   }
+  },
   renderTasks: async () => {
     // Load the total task count from the blockchain
     const taskCount = await App.Ballot.proposalCount()
-    const $taskTemplate = $('.card')
     const map1 = new Map();
 
     // Render out each task with a new task template
     for (var i = 1; i <= taskCount; i++) {
       // Fetch the task data from the blockchain
       const task = await App.Ballot.proposals(i)
-      const taskId = task[0].toNumber()
       const taskTitle = task[3]
       const taskContent = task[4]
 
@@ -133,54 +152,79 @@ App = {
       console.log(btn.id)
       console.log(event.currentTarget.id);
       var newChild = map1.get(parseInt(btn.id));
+      let other_id = event.currentTarget.id.split("-")[0] + '-down';
+      var upvoteOn = event.currentTarget.classList.contains('on');
+      var downvoteOn = document.getElementById(other_id).classList.contains('on');
+      if(!upvoteOn && !downvoteOn){
+        newChild.getElementsByClassName("upvote-label")[0].innerText = parseInt(newChild.getElementsByClassName("upvote-label")[0].innerText)+1;
+        newChild.getElementsByClassName("downvote-label")[0].innerText = parseInt(newChild.getElementsByClassName("downvote-label")[0].innerText);
+      }else if(upvoteOn && !downvoteOn){
+        newChild.getElementsByClassName("upvote-label")[0].innerText = parseInt(newChild.getElementsByClassName("upvote-label")[0].innerText)-1;
+        newChild.getElementsByClassName("downvote-label")[0].innerText = parseInt(newChild.getElementsByClassName("downvote-label")[0].innerText);
+      }else if(!upvoteOn && downvoteOn){
+        newChild.getElementsByClassName("upvote-label")[0].innerText = parseInt(newChild.getElementsByClassName("upvote-label")[0].innerText)+1;
+        newChild.getElementsByClassName("downvote-label")[0].innerText = parseInt(newChild.getElementsByClassName("downvote-label")[0].innerText)-1;
+      }
+      
+      document.body.replaceChild(newChild,map1.get(parseInt(btn.id)));
+      map1.set(parseInt(btn.id),newChild);
       //console.log(btn.className.substring(5));
       console.log(event.currentTarget.classList);
       event.currentTarget.classList.toggle('on');
+      App.recentlyVoted.set(parseInt(btn.id),true);
       if (event.currentTarget.id.includes('up')) {
-        let other_id = event.currentTarget.id.split("-")[0] + '-down';
+         other_id = event.currentTarget.id.split("-")[0] + '-down';
         document.getElementById(other_id).classList.remove("on");
       }
       else {
-        let other_id = event.currentTarget.id.split("-")[0] + '-up'
+         other_id = event.currentTarget.id.split("-")[0] + '-up'
         document.getElementById(other_id).classList.remove("on");
       }
      
       await App.Ballot.proposalUpvoted(parseInt(btn.id),App.address);
+      App.recentlyVoted.set(parseInt(btn.id),false);
       const proposal = await App.Ballot.proposals(parseInt(btn.id));
-      console.log(proposal);
-      newChild.getElementsByClassName("upvote-label")[0].innerText = proposal[1];
-      newChild.getElementsByClassName("downvote-label")[0].innerText = proposal[2];
-  
-      document.body.replaceChild(newChild,map1.get(parseInt(btn.id)));
-      map1.set(parseInt(btn.id),newChild);
+     // await App.renderVotes();
       console.log("Upvotes: " + proposal[1]);
       console.log("Downvotes: " + proposal[2]);
       console.log("currentState: "+ await App.Ballot.voters(App.address,i));
     }
 
     async function downvote(btn,event){
+      var newChild = map1.get(parseInt(btn.id));
+      let other_id = event.currentTarget.id.split("-")[0] + '-down';
+      var upvoteOn = event.currentTarget.classList.contains('on');
+      var downvoteOn = document.getElementById(other_id).classList.contains('on');
+      if(!upvoteOn && !downvoteOn){
+        newChild.getElementsByClassName("upvote-label")[0].innerText = parseInt(newChild.getElementsByClassName("upvote-label")[0].innerText);
+        newChild.getElementsByClassName("downvote-label")[0].innerText = parseInt(newChild.getElementsByClassName("downvote-label")[0].innerText)-1;
+      }else if(upvoteOn && !downvoteOn){
+        newChild.getElementsByClassName("upvote-label")[0].innerText = parseInt(newChild.getElementsByClassName("upvote-label")[0].innerText)-1;
+        newChild.getElementsByClassName("downvote-label")[0].innerText = parseInt(newChild.getElementsByClassName("downvote-label")[0].innerText)+1;
+      }else if(!upvoteOn && downvoteOn){
+        newChild.getElementsByClassName("upvote-label")[0].innerText = parseInt(newChild.getElementsByClassName("upvote-label")[0].innerText);
+        newChild.getElementsByClassName("downvote-label")[0].innerText = parseInt(newChild.getElementsByClassName("downvote-label")[0].innerText)-1;
+      }
+      document.body.replaceChild(newChild,map1.get(parseInt(btn.id)));
+      map1.set(parseInt(btn.id),newChild);
+
       event.currentTarget.classList.toggle('on');
       console.log(event.currentTarget.id);
 
       if (event.currentTarget.id.includes('up')) {
-        let other_id = event.currentTarget.id.split("-")[0] + '-down';
+         other_id = event.currentTarget.id.split("-")[0] + '-down';
         document.getElementById(other_id).classList.remove("on");
       }
       else {
-        let other_id = event.currentTarget.id.split("-")[0] + '-up'
+         other_id = event.currentTarget.id.split("-")[0] + '-up'
         document.getElementById(other_id).classList.remove("on");
       }
       console.log(btn.id)
-      var newChild = map1.get(parseInt(btn.id));
       //console.log(btn.className.substring(5));
       await App.Ballot.proposalDownvoted(parseInt(btn.id),App.address);
       const proposal = await App.Ballot.proposals(parseInt(btn.id));
       console.log(proposal);
       console.log("Upvotes: " + proposal[1]);
-      newChild.getElementsByClassName("upvote-label")[0].innerText = proposal[1];
-      newChild.getElementsByClassName("downvote-label")[0].innerText = proposal[2];
-      document.body.replaceChild(newChild,map1.get(parseInt(btn.id)));
-      map1.set(parseInt(btn.id),newChild);
       console.log("Downvotes: " + proposal[2]);
     }
 
