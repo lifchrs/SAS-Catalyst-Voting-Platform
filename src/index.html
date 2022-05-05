@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>SAS Voting Platform</title>
+
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
+    <!-- Bootstrap -->
+    <link href="vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+      .vote-arrows {
+        margin-top: -25px;
+      }
+
+
+      
+
+      .vote-up {
+        display: inline-block;
+        margin-left: 650px;
+        width: 40px;
+        height: 25px;
+        cursor: pointer;
+        background: url('http://i.stack.imgur.com/iqN2k.png');
+        background-position: 0 -25px;
+        margin-bottom:-18px;
+      } 
+
+      .vote-down {
+        display: inline-block;
+        margin-top:-5px;
+        -webkit-transform:rotate(180deg);
+        -moz-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+        transform: rotate(180deg);
+        margin-left: 650px;
+        width: 40px;
+        height: 25px;
+        cursor: pointer;
+        background: url('http://i.stack.imgur.com/iqN2k.png');
+        background-position: 0 -25px;
+      } 
+
+    .container span  {
+        font-size: 0;     
+        margin-top: 50px;
+    }
+      .on {
+        background-position: 0 2px;
+      }
+
+
+
+      .upvote-label {
+        float: inline-block;
+        margin-left: 667px;
+        font-size: 8px;
+        padding: -10px;
+        margin-top: -50px;
+        margin-bottom: -50px;
+      }
+      .downvote-label {
+        position:relative;
+        float: inline-block;
+        margin-left: 667px;
+        font-size: 8px;
+        padding: 0px;
+        margin-top: -50px;
+        margin-bottom: -60px;
+        z-index:100;
+      }
+      main {
+        margin-top: 60px;
+      }
+
+      #content {
+        display: none;
+      }
+      .card {
+        width: 700px
+      }
+      form {
+        width: 350px;
+        margin-bottom: 10px;
+      }
+
+      ul {
+        margin-bottom: 0px;
+      }
+
+      #completedTaskList .content {
+        color: grey;
+        text-decoration: line-through;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="http://www.dappuniversity.com/free-download" target="_blank">SAS Voting Platform</a>
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap d-none d-sm-none d-sm-block">
+          <small><a class="nav-link" href="#"><span id="account"></span></a></small>
+        </li>
+      </ul>
+
+    </div>
+
+
+<script>
+   
+    
+</script>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="vendor/web3/dist/web3.js"></script>
+    <script src="vendor/truffle-contract/dist/truffle-contract.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
