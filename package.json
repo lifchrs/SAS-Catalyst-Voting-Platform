@@ -6,9 +6,15 @@
   "directories": {
     "test": "test"
   },
+  "homepage": "http://lifchrs.github.io/may5",
   "scripts": {
     "dev": "lite-server",
-    "test": "echo \"Error: no test specified\" && sexit 1"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "author": "gregory@dappuniversity.com",
   "license": "ISC",
