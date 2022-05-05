@@ -66,7 +66,7 @@ contract Ballot{
 
     function proposalUpvoted(int proposalID, address voterAddress) public{
         int currentVote = voters[voterAddress][proposalID];
-      /*  if(currentVote == 1){
+        if(currentVote == 1){
             voters[voterAddress][proposalID] = 0;
             proposals[proposalID].numPos -= 1;
         }
@@ -77,7 +77,7 @@ contract Ballot{
             voters[voterAddress][proposalID] = 1;
             proposals[proposalID].numPos++;
             proposals[proposalID].numNeg--;
-        }*/
+        }
         emit change(proposals[proposalID].numPos,proposals[proposalID].numNeg);
     }
 
