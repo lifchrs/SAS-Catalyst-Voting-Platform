@@ -206,6 +206,7 @@ App = {
         newChild.getElementsByClassName("upvote-label")[0].innerText = parseInt(newChild.getElementsByClassName("upvote-label")[0].innerText);
         newChild.getElementsByClassName("downvote-label")[0].innerText = parseInt(newChild.getElementsByClassName("downvote-label")[0].innerText)-1;
       }
+      App.recentlyVoted.set(parseInt(btn.id),true);
       document.body.replaceChild(newChild,map1.get(parseInt(btn.id)));
       map1.set(parseInt(btn.id),newChild);
 
@@ -223,6 +224,7 @@ App = {
       console.log(btn.id)
       //console.log(btn.className.substring(5));
       await App.Ballot.proposalDownvoted(parseInt(btn.id),App.address);
+      App.recentlyVoted.set(parseInt(btn.id),false);
       const proposal = await App.Ballot.proposals(parseInt(btn.id));
       console.log(proposal);
       console.log("Upvotes: " + proposal[1]);
