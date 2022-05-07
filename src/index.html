@@ -96,28 +96,41 @@
         margin-bottom: 10px;
       }
 
+      .proposal-form{
+        position: fixed;
+        bottom: 370px;
+        right: 200px;
+        width: 700px;
+      }
       ul {
         margin-bottom: 0px;
       }
 
-      #completedTaskList .content {
-        color: grey;
-        text-decoration: line-through;
-      }
     </style>
   </head>
   <body>
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="http://www.dappuniversity.com/free-download" target="_blank">SAS Voting Platform</a>
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" target="_blank">SAS Voting Platform</a>
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap d-none d-sm-none d-sm-block">
           <small><a class="nav-link" href="#"><span id="account"></span></a></small>
         </li>
       </ul>
-
     </div>
-
-
+    </nav>
+    <div class="proposal-form">
+      <div class="proposal-title">
+          <label for="text-1651902636978" class="formbuilder-text-label">Proposal Title</label>
+          <input type="text" class="form-control" name="text-1651902636978" access="false" id="prop-title">
+      </div>
+      <div class="proposal-content">
+          <label for="textarea-1651902632911" class="formbuilder-textarea-label">Proposal Content</label>
+          <textarea type="textarea" class="form-control" name="textarea-1651902632911" access="false" id="prop-content"></textarea>
+      </div>
+      <div class="submit-button">
+        <button type="button" class="btn-submit" onclick="App.createProp()" name="button-1651904323483" access="false" style="default" id="button-1651904323483">Submit</button>
+      </div>
+  </div>
 <script>
    
     
