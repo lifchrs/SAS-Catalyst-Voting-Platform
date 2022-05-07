@@ -110,7 +110,7 @@ App = {
         const hash = value[5];
 
         // Create the html for the task
-        let html_string = '<div id = test-id style = "position:relative; left:80px; top:200px; "> <div class="card"><div class="proposal-header"> Card header </div> <div class="proposal-content p-2"> Card with header and footer... </div> <div class = "vote-arrows-id"> <span id = "xx" class="sprite vote-up"> </span><label class = "upvote-label"> yuh </label> <label class = "downvote-label"> yuh2 </label>  <span id = "xx" span class="sprite vote-down"> </span> </div> <br> <br> </div> </div>'
+        let html_string = '<div id = test-id style = "position:relative;  "> <div class="card"><div class="proposal-header"> Card header </div> <div class="proposal-content p-2"> Card with header and footer... </div> <div class = "vote-arrows-id"> <span id = "xx" class="sprite vote-up"> </span><label class = "upvote-label"> yuh </label> <label class = "downvote-label"> yuh2 </label>  <span id = "xx" span class="sprite vote-down"> </span> </div> <br> <br> </div> </div>'
 
         var template = document.createElement('template');
         html_string = html_string.trim().replace('test-id', 'test-' + hash).replace('span id = "xx"', 'span id = ' + hash + '-up').replace('span id = "xx"', 'span id = ' + hash + '-down').replace("vote-arrows-id", "vote-arrows-" + hash);
@@ -193,7 +193,7 @@ App = {
       const hash = key;
 
       // Create the html for the task
-      let html_string = '<div id = test-id style = "position:relative; left:80px; top:200px; "> <div class="card"><div class="proposal-header"> Card header </div> <div class="proposal-content p-2"> Card with header and footer... </div> <div class = "vote-arrows-id"> <span id = "xx" class="sprite vote-up"> </span><label class = "upvote-label"> yuh </label> <label class = "downvote-label"> yuh2 </label>  <span id = "xx" span class="sprite vote-down"> </span> </div> <br> <br> </div> </div>'
+      let html_string = '<div id = test-id style = "position:relative;  "> <div class="card"><div class="proposal-header"> Card header </div> <div class="proposal-content p-2"> Card with header and footer... </div> <div class = "vote-arrows-id"> <span id = "xx" class="sprite vote-up"> </span><label class = "upvote-label"> yuh </label> <label class = "downvote-label"> yuh2 </label>  <span id = "xx" span class="sprite vote-down"> </span> </div> <br> <br> </div> </div>'
 
       var template = document.createElement('template');
       html_string = html_string.trim().replace('test-id', 'test-' + hash).replace('span id = "xx"', 'span id = ' + hash + '-up').replace('span id = "xx"', 'span id = ' + hash + '-down').replace("vote-arrows-id", "vote-arrows-" + hash);
@@ -228,7 +228,6 @@ App = {
       } else {
         $('#taskList').append($newTaskTemplate)
       }
-
       // Show the task
       $newTaskTemplate.show()
       */
