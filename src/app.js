@@ -88,6 +88,15 @@ App = {
       var test1 = document.getElementsByClassName("vote-arrows-" + i);
       document.getElementsByClassName("vote-arrows-" + i)[0].getElementsByClassName("upvote-label")[0].innerText = task[1];
       document.getElementsByClassName("vote-arrows-" + i)[0].getElementsByClassName("downvote-label")[0].innerText = task[2];
+      var currentVote = await App.Ballot.voters(App.address,i);
+      if(currentVote.toNumber() == 1) {
+        document.getElementById(i + '-up').classList.add("on");
+          document.getElementById(i + '-down').classList.remove("on");
+      }
+      else if(currentVote.toNumber() == -1){
+        document.getElementById(i + '-down').classList.add("on");
+        document.getElementById(i + '-up').classList.remove("on");
+      }
     }
    }
   },
