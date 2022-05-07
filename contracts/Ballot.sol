@@ -77,8 +77,8 @@ contract Ballot{
             proposals[proposalID].numPos += 1;
         }else if(currentVote == -1){
             voters[voterAddress][proposalID] = 1;
-            proposals[proposalID].numPos++;
-            proposals[proposalID].numNeg--;
+            proposals[proposalID].numPos += 1;
+            proposals[proposalID].numNeg -= 1;
         }
         emit change(proposals[proposalID].numPos,proposals[proposalID].numNeg);
     }
@@ -87,11 +87,11 @@ contract Ballot{
         int currentVote = voters[voterAddress][proposalID];
         if(currentVote == 1){
             voters[voterAddress][proposalID] = -1;
-            proposals[proposalID].numPos--;
-            proposals[proposalID].numNeg++;
+            proposals[proposalID].numPos -= 1;
+            proposals[proposalID].numNeg += 1;
         }
         else if(currentVote == 0){
-            //voters[voterAddress][proposalID] = -1;
+            voters[voterAddress][proposalID] = -1;
             proposals[proposalID].numNeg++;
         }else if(currentVote == -1){
             voters[voterAddress][proposalID] = 0;

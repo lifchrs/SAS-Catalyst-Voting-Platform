@@ -114,8 +114,7 @@ App = {
 
         var template = document.createElement('template');
         html_string = html_string.trim().replace('test-id', 'test-' + hash).replace('span id = "xx"', 'span id = ' + hash + '-up').replace('span id = "xx"', 'span id = ' + hash + '-down').replace("vote-arrows-id", "vote-arrows-" + hash);
-        var currentVote = await App.Ballot.voters(App.address, propId);
-        console.log(currentVote.toNumber());
+        var currentVote = (await App.Ballot.voters(App.address, propId)).toNumber();
         template.innerHTML = html_string;
         template.content.firstChild.getElementsByClassName("proposal-header")[0].innerText = title;
         template.content.firstChild.getElementsByClassName("proposal-content")[0].innerText = content;
@@ -123,10 +122,10 @@ App = {
         template.content.firstChild.getElementsByClassName("downvote-label")[0].innerText = numDownvotes;
         App.map1.set(hash, template.content.firstChild);
         document.body.appendChild(template.content.firstChild);
-        if (currentVote.toNumber() == 1) {
+        if (currentVote == 1) {
           document.getElementById(hash + '-up').classList.add("on");
         }
-        else if (currentVote.toNumber() == -1) {
+        else if (currentVote == -1) {
           document.getElementById(hash + '-down').classList.add("on");
         }
 
@@ -135,8 +134,9 @@ App = {
     }
   },
   renderVotes: async () => {
+    console.log("totalCount: " + App.proposalMap.size)
     for (const [key, value] of App.proposalMap.entries()){
-      const propId = value[0];
+      const propId = value[0].toNumber();
       const numUpvotes = value[1].toNumber();
       const numDownvotes = value[2].toNumber();
       const title = value[3]
@@ -148,12 +148,13 @@ App = {
         // Fetch the task data from the blockchain
         document.getElementsByClassName("vote-arrows-" + hash)[0].getElementsByClassName("upvote-label")[0].innerText = numUpvotes;
         document.getElementsByClassName("vote-arrows-" + hash)[0].getElementsByClassName("downvote-label")[0].innerText = numDownvotes;
-        var currentVote = await App.Ballot.voters(App.address, propId);
-        if (currentVote.toNumber() == 1) {
+        console.log("" + propId + ": " + numUpvotes + " " + numDownvotes)
+        var currentVote = (await App.Ballot.voters(App.address, propId)).toNumber();
+        if (currentVote == 1) {
           document.getElementById(hash + '-up').classList.add("on");
           document.getElementById(hash + '-down').classList.remove("on");
         }
-        else if (currentVote.toNumber() == -1) {
+        else if (currentVote == -1) {
           document.getElementById(hash + '-down').classList.add("on");
           document.getElementById(hash + '-up').classList.remove("on");
         }
@@ -168,7 +169,7 @@ App = {
 
     for (var i = 1; i <= proposalCount; i++) {
       const proposal = await App.Ballot.proposals(i);
-      const propHash = proposal[5];
+      const propHash = proposal[5].toString();
       console.log(propHash)
       App.proposalMap.set(propHash, proposal);
     }
@@ -191,14 +192,13 @@ App = {
       console.log(title);
       const content = value[4]
       const hash = key;
-
+      App.recentlyVoted.set(hash,false);
       // Create the html for the task
       let html_string = '<div id = test-id style = "position:relative;  "> <div class="card"><div class="proposal-header"> Card header </div> <div class="proposal-content p-2"> Card with header and footer... </div> <div class = "vote-arrows-id"> <span id = "xx" class="sprite vote-up"> </span><label class = "upvote-label"> yuh </label> <label class = "downvote-label"> yuh2 </label>  <span id = "xx" span class="sprite vote-down"> </span> </div> <br> <br> </div> </div>'
 
       var template = document.createElement('template');
       html_string = html_string.trim().replace('test-id', 'test-' + hash).replace('span id = "xx"', 'span id = ' + hash + '-up').replace('span id = "xx"', 'span id = ' + hash + '-down').replace("vote-arrows-id", "vote-arrows-" + hash);
-      var currentVote = await App.Ballot.voters(App.address, propId);
-      console.log(currentVote.toNumber());
+      var currentVote = (await App.Ballot.voters(App.address, propId)).toNumber();
       template.innerHTML = html_string;
       template.content.firstChild.getElementsByClassName("proposal-header")[0].innerText = title;
       template.content.firstChild.getElementsByClassName("proposal-content")[0].innerText = content;
@@ -206,10 +206,10 @@ App = {
       template.content.firstChild.getElementsByClassName("downvote-label")[0].innerText = numDownvotes;
       App.map1.set(hash, template.content.firstChild);
       document.body.appendChild(template.content.firstChild);
-      if (currentVote.toNumber() == 1) {
+      if (currentVote == 1) {
         document.getElementById(hash + '-up').classList.add("on");
       }
-      else if (currentVote.toNumber() == -1) {
+      else if (currentVote == -1) {
         document.getElementById(hash + '-down').classList.add("on");
       }
 
@@ -239,6 +239,7 @@ App = {
     async function upvote(btn, event) {
       console.log(event.currentTarget.id);
       btn.hash = btn.id.substring(0, btn.id.length - 3);
+      App.recentlyVoted.set((btn.hash), true);
       console.log(btn.hash)
       var newChild = App.map1.get(btn.hash);
       console.log(newChild)
@@ -262,7 +263,6 @@ App = {
       //console.log(btn.className.substring(5));
       console.log(event.currentTarget.classList);
       event.currentTarget.classList.toggle('on');
-      App.recentlyVoted.set((btn.hash), true);
       if (event.currentTarget.id.includes('up')) {
         other_id = event.currentTarget.id.split("-")[0] + '-down';
         document.getElementById(other_id).classList.remove("on");
@@ -273,16 +273,18 @@ App = {
       }
 
       await App.Ballot.proposalUpvoted(App.proposalMap.get(btn.hash)[0], App.address);
-      App.recentlyVoted.set((btn.hash), false);
       const proposal = await App.Ballot.proposals(App.proposalMap.get(btn.hash)[0]);
+      App.proposalMap.set(btn.hash,proposal);
+      App.recentlyVoted.set((btn.hash), false);
       // await App.renderVotes();
       console.log("Upvotes: " + proposal[1]);
       console.log("Downvotes: " + proposal[2]);
-      console.log("currentState: " + await App.Ballot.voters(App.address, btn.hash));
+      console.log("currentState: " + await App.Ballot.voters(App.address, App.proposalMap.get(btn.hash)[0]));
     }
 
     async function downvote(btn, event) {
       btn.hash = btn.id.substring(0, btn.id.length - 5);
+      App.recentlyVoted.set((btn.hash), true);
       var newChild = App.map1.get((btn.hash));
       console.log((btn.hash));
       console.log(newChild);
@@ -299,7 +301,6 @@ App = {
         newChild.getElementsByClassName("upvote-label")[0].innerText = parseInt(newChild.getElementsByClassName("upvote-label")[0].innerText);
         newChild.getElementsByClassName("downvote-label")[0].innerText = parseInt(newChild.getElementsByClassName("downvote-label")[0].innerText) - 1;
       }
-      App.recentlyVoted.set((btn.hash), true);
       document.body.replaceChild(newChild, App.map1.get((btn.hash)));
       App.map1.set((btn.hash), newChild);
 
@@ -318,8 +319,9 @@ App = {
 
       //console.log(btn.className.substring(5));
       await App.Ballot.proposalDownvoted(App.proposalMap.get(btn.hash)[0], App.address);
-      App.recentlyVoted.set((btn.hash), false);
       const proposal = await App.Ballot.proposals(App.proposalMap.get(btn.hash)[0]);
+      App.proposalMap.set(btn.hash,proposal);
+      App.recentlyVoted.set((btn.hash), false)
       console.log(proposal);
       console.log("Upvotes: " + proposal[1]);
       console.log("Downvotes: " + proposal[2]);
