@@ -5,6 +5,7 @@ App = {
   recentlyVoted: new Map(),
   map1: new Map(),
   proposalMap: new Map(),
+  justUpdated: false,
   load: async () => {
     await App.loadWeb3()
     console.log("app loading...");
@@ -84,20 +85,21 @@ App = {
 
   createProp: async () => {
     var title = document.getElementById("prop-title").value;
-    document.getElementById("prop-title").value = "Submitting...";
     var content = document.getElementById("prop-content").value;
-
-    var content = document.getElementById("prop-content").value = "Submitting...";
+    document.getElementById("prop-content").value = "Submitting...";
+    document.getElementById("prop-title").value = "Submitting...";
     const now = new Date()
     const milliseccondsSinceEpoch = now.getTime() + (now.getTimezoneOffset() * 60 * 1000);
     await App.Ballot.createProposal(title, content, milliseccondsSinceEpoch.toString())
     document.getElementById("prop-title").value = "";
-    var content = document.getElementById("prop-content").value = "0";
+    document.getElementById("prop-content").value = "";
 
   },
   renderProposals: async () => {
+    App.justUpdated = false;
     var currProposalCount = (await App.Ballot.proposalCount()).toNumber();
     if (currProposalCount != App.proposalCount) {
+      App.justUpdated = true;
       console.log("currpropcount");
       console.log(currProposalCount);
       console.log(App.proposalCount)
@@ -141,8 +143,15 @@ App = {
   },
   renderVotes: async () => {
     console.log("totalCount: " + App.proposalMap.size)
+    for (var i = 1; i <= App.proposalCount; i++) {
+      const proposal = await App.Ballot.proposals(i);
+      const propHash = proposal[5].toString();
+      console.log(propHash)
+      App.proposalMap.set(propHash, proposal);
+    }    
     for (const [key, value] of App.proposalMap.entries()){
       const propId = value[0].toNumber();
+      const proposal = await App.Ballot.proposals(propId);
       const numUpvotes = value[1].toNumber();
       const numDownvotes = value[2].toNumber();
       const title = value[3]
