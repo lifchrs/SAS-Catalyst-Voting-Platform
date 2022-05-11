@@ -84,10 +84,16 @@ App = {
 
   createProp: async () => {
     var title = document.getElementById("prop-title").value;
+    document.getElementById("prop-title").value = "Submitting...";
     var content = document.getElementById("prop-content").value;
+
+    var content = document.getElementById("prop-content").value = "Submitting...";
     const now = new Date()
     const milliseccondsSinceEpoch = now.getTime() + (now.getTimezoneOffset() * 60 * 1000);
     await App.Ballot.createProposal(title, content, milliseccondsSinceEpoch.toString())
+    document.getElementById("prop-title").value = "";
+    var content = document.getElementById("prop-content").value = "0";
+
   },
   renderProposals: async () => {
     var currProposalCount = (await App.Ballot.proposalCount()).toNumber();
