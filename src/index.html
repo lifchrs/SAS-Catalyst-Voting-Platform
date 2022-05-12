@@ -131,8 +131,21 @@
   </div>
   <br>  <br> 
 <script>
-   
-    
+  function getCookie(user) {
+    var cookieArr = document.cookie.split(";");
+    for(var i = 0; i < cookieArr.length; i++) {
+        var cookiePair = cookieArr[i].split("=");
+        if(user == cookiePair[0].trim()) {
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
+    return null;
+}
+
+if(!getCookie("visited")){
+  document.cookie="visited=1";
+  window.location.replace("/tutorial");
+}
 </script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
