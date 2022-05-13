@@ -13,10 +13,16 @@
 
 * Github: [@lifchrs](https://github.com/lifchrs)
 
+## Motivation
+This project was completed as a part of my catalyst project. I aimed to build a blockchain-enabled voting platform to seamlessly integrate community feedback into school policy decisions therefore make it possible to have more discourse regarding school policy.
+
+## Project Description
+The platform is built using Solidity to program smart contracts, Web3.js to interact with the Ethereum nodes, and Javascript to display the page. It is hosted on the Rinkeby Test Network, meaning that real Ether doesn't have to be used. 
+
+## Credits
+This tutorial was very useful: https://github.com/dappuniversity/eth-todo-list/blob/master/contracts/TodoList.sol
+
+
 ## Show your support
 
 Give a ⭐️ if this project helped you!
-
-
-***
-_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
