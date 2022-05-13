@@ -1,12 +1,12 @@
 {
-  "name": "eth-todo-list",
+  "name": "SAS Voting Platform",
   "version": "1.0.0",
-  "description": "Blockchain Todo List Powered By Ethereum",
+  "description": "Blockchain Voting Platform Powered By Ethereum",
   "main": "truffle-config.js",
   "directories": {
     "test": "test"
   },
-  "homepage": "http://lifchrs.github.io/may5",
+  "homepage": "http://lifchrs.github.io/may7",
   "scripts": {
     "dev": "lite-server",
     "start": "react-scripts start",
@@ -16,7 +16,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "author": "gregory@dappuniversity.com",
+  "author": "polavaramadhitya@gmail.com",
   "license": "ISC",
   "devDependencies": {
     "bootstrap": "4.1.3",
