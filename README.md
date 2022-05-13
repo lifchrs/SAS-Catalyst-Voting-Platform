@@ -4,7 +4,7 @@
 
 > Blockchain Voting Platform Powered By Ethereum
 
-### 🏠 [Homepage](http://lifchrs.github.io/may7)
+### 🏠 [Homepage](http://lifchrs.github.io/SAS-Catalyst-Voting-Platform)
 
 
 ## Author

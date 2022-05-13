@@ -6,7 +6,7 @@
   "directories": {
     "test": "test"
   },
-  "homepage": "http://lifchrs.github.io/may7",
+  "homepage": "http://lifchrs.github.io/SAS-Catalyst-Voting-Platform",
   "scripts": {
     "dev": "lite-server",
     "start": "react-scripts start",
