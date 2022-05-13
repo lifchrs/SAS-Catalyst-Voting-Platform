@@ -21,7 +21,7 @@ The platform is built using Solidity to program smart contracts, Web3.js to inte
 
 ## Credits
 Thanks to Suhas Hariharan (https://github.com/suhas-13) for helping me a lot with the website side of things.
-This tutorial was very useful: https://github.com/dappuniversity/eth-todo-list/blob/master/contracts/TodoList.sol
+This tutorial was very useful: https://github.com/dappuniversity/eth-todo-list/
 
 
 ## Show your support
