@@ -20,7 +20,7 @@ This project was completed as a part of my catalyst project. I aimed to build a 
 The platform is built using Solidity to program smart contracts, Web3.js to interact with the Ethereum nodes, and Javascript to display the page. It is hosted on the Rinkeby Test Network, meaning that real Ether doesn't have to be used. For production usage, it should be hosted on the real Ethereum network. Bootstrap is used as a CSS framework, Node JS is used for the front-end, and Truffle was used to help develop the smart contracts.
 
 ## Credits
-Thanks to Suhas Hariharan (https://github.com/suhas-13) for helping me a lot with the website side of things.
+Thanks to Suhas Hariharan (https://github.com/suhas-13) for helping me a lot with the building the front-end.
 This tutorial was very useful: https://github.com/dappuniversity/eth-todo-list/
 
 
